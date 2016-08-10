@@ -1,5 +1,6 @@
 package ayp.aug.contact;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -24,12 +25,16 @@ import android.widget.ImageView;
 import java.io.File;
 import java.util.UUID;
 
+import ayp.aug.contact.model.Contact;
+import ayp.aug.contact.model.ContactLab;
+
 /**
  * Created by Hattapong on 8/9/2016.
  */
 public class ContactFragment extends Fragment {
 
-    private static final int REQUET_CAPTURE_PHOTO = 137;
+    private static final String CONTACT_ID = "Contact_ID";
+    private static final int REQUEST_CAPTURE_PHOTO = 123123;
 
     private EditText editTextName;
     private EditText editTextTel;
@@ -38,12 +43,48 @@ public class ContactFragment extends Fragment {
     private ImageView imageView;
     private ImageButton imageButton;
     private File photoFile;
+    private Contact contact;
 
     private Callbacks callbacks;
 
+    public UUID getContactId() {
+        if(this.contact != null){
+            return this.contact.getUuid();
+        }
+        return null;
+    }
+
+    public void getUpdateUI() {
+        reloadContactDB();
+    }
+
+    private void reloadContactDB() {
+        ContactLab contactLab = ContactLab.getInstance(getActivity());
+
+        if (getArguments().get(CONTACT_ID) != null) {
+            UUID contactId = (UUID) getArguments().getSerializable(CONTACT_ID);
+            contact = ContactLab.getInstance(getActivity()).getContactById(contactId);
+        } else {
+            Contact contact = new Contact();
+            contactLab.addContact(contact);
+            this.contact = contact;
+        }
+    }
+
+
     public interface Callbacks {
-        void onUpdated();
+        void onUpdated(Contact contact);
         void onDelete();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        if (requestCode == REQUEST_CAPTURE_PHOTO) {
+            updateImageView();
+        }
     }
 
     @Override
@@ -58,15 +99,10 @@ public class ContactFragment extends Fragment {
         callbacks = null;
     }
 
-    public void upDateData() {
-        /*CrimeLab.getInstance(getActivity()).updateCrime(crime); //update crime in DB
-        callbacks.onCrimeUpdated(crime);*/ //TODO UPDATE DATABASE
-    }
-
-    public static ContactFragment newInstance() {
+    public static ContactFragment newInstance(UUID uuid) {
 
         Bundle args = new Bundle();
-
+        args.putSerializable(CONTACT_ID,uuid);
         ContactFragment fragment = new ContactFragment();
         fragment.setArguments(args);
         return fragment;
@@ -77,8 +113,7 @@ public class ContactFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         /*photoFile = //TODO GET PHOTO FILE FROME DATABASE*/
-
-        updateUI();
+        reloadContactDB();
     }
 
     @Nullable
@@ -87,7 +122,7 @@ public class ContactFragment extends Fragment {
         View v = inflater.inflate(R.layout.list_edit_detail,container,false);
 
         editTextName = (EditText) v.findViewById(R.id.edit_text_name);
-        editTextName.setText("");
+        editTextName.setText(contact.getName());
         editTextName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -96,7 +131,8 @@ public class ContactFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                contact.setName(s.toString());
+                updateContact();
             }
 
             @Override
@@ -106,7 +142,7 @@ public class ContactFragment extends Fragment {
         });
 
         editTextTel = (EditText) v.findViewById(R.id.edit_text_tel);
-        editTextTel.setText("");
+        editTextTel.setText(contact.getTelephoneNo());
         editTextTel.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -115,7 +151,8 @@ public class ContactFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                contact.setTelephoneNo(s.toString());
+                updateContact();
             }
 
             @Override
@@ -125,7 +162,7 @@ public class ContactFragment extends Fragment {
         });
 
         editTextEmail = (EditText) v.findViewById(R.id.edit_text_email);
-        editTextEmail.setText("");
+        editTextEmail.setText(contact.getEmail());
         editTextEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -134,7 +171,8 @@ public class ContactFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                contact.setEmail(s.toString());
+                updateContact();
             }
 
             @Override
@@ -147,7 +185,9 @@ public class ContactFragment extends Fragment {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*CrimeLab.getInstance(getActivity()).deleteCrime(crime.getId());*/ //TODO DELETE DATA
+            FragmentManager fm = getFragmentManager();
+                ContactDeleteDialog contactDeleteDialog = ContactDeleteDialog.newInstance(contact);
+                contactDeleteDialog.show(fm, "deleteDialog");
             }
         });
 
@@ -170,7 +210,7 @@ public class ContactFragment extends Fragment {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(captureImageIntent, REQUET_CAPTURE_PHOTO);
+                startActivityForResult(captureImageIntent, REQUEST_CAPTURE_PHOTO);
             }
         });
 
@@ -179,9 +219,9 @@ public class ContactFragment extends Fragment {
         return v;
     }
 
-    private void updateUI() {
-        /*UUID crimeId = (UUID) getArguments().getSerializable(CRIME_ID);
-        crime = CrimeLab.getInstance(getActivity()).getCrimesById(crimeId);*/ //TODO GET DATA
+    private void updateContact() {
+        ContactLab.getInstance(getActivity()).updateContact(contact);
+        callbacks.onUpdated(contact);
     }
 
     protected void updateImageView() {

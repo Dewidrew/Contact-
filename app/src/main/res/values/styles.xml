@@ -6,6 +6,17 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/colorWindowBackground</item>
+    </style>
+
+    <style name="imageTextStyle">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/colorTextBackground</item>
+    </style>
+
+    <style name="ImageButton" parent="Base.Widget.AppCompat.Button">
+        <item name="android:background">@drawable/delete_buuton</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
 </resources>

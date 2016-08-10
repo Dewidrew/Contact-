@@ -11,6 +11,7 @@ public class Contact {
     String name;
     String telephoneNo;
     String email;
+    boolean editStatus;
 
     public Contact() {
         this.uuid = UUID.randomUUID();
@@ -50,6 +51,14 @@ public class Contact {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isEditStatus() {
+        return editStatus;
+    }
+
+    public void setEditStatus(boolean editStatus) {
+        this.editStatus = editStatus;
     }
 
     public String getPhotoFilename(){
