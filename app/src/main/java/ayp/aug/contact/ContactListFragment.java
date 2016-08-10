@@ -46,10 +46,12 @@ public class ContactListFragment extends Fragment {
     private Callbacks callbacks;
     private TextView emptyTxt;
     private Contact contact;
+    protected static int colume;
 
     public interface Callbacks {
         void onContactSelected(Contact contact);
         void onOpenSelectFirst();
+        void onSetColumn();
     }
 
     public static ContactListFragment newInstance() {
@@ -106,9 +108,9 @@ public class ContactListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.list_show_contact, container, false);
-
+        callbacks.onSetColumn();
         _contactRecycleView = (RecyclerView) v.findViewById(R.id.contact_recycler_view);
-        _contactRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        _contactRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), colume));
 
         emptyTxt = (TextView) v.findViewById(R.id.contact_list_null);
 
