@@ -27,10 +27,11 @@
 
         <ImageButton
             android:id="@+id/image_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_image_button"
-            android:backgroundTint="@color/colorWindowBackground"/>
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            style="@style/DeleteButton"
+            android:src="@drawable/ic_get_image_button" />
     </LinearLayout>
 
     <LinearLayout
@@ -44,39 +45,51 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/text_view_name"
+            android:textColor="@color/white"
             android:textSize="18dp"/>
 
         <EditText
             android:id="@+id/edit_text_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_edit_text_name"/>
+            android:hint="@string/hint_edit_text_name"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@color/white"
+            android:textColorHint="@color/lightGray"/>
 
         <TextView
             android:id="@+id/text_view_tel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/text_view_tel"
+            android:textColor="@color/white"
             android:textSize="18dp"/>
 
         <EditText
             android:id="@+id/edit_text_tel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_edit_text_tel"/>
+            android:hint="@string/hint_edit_text_tel"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@color/white"
+            android:textColorHint="@color/lightGray"/>
 
         <TextView
             android:id="@+id/text_view_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/text_viewemail"
+            android:textColor="@color/white"
             android:textSize="18dp"/>
 
         <EditText
             android:id="@+id/edit_text_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_edit_text_email"/>
+            android:hint="@string/hint_edit_text_email"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="@color/white"
+            android:textColorHint="@color/lightGray"/>
     </LinearLayout>
 
 </LinearLayout>
