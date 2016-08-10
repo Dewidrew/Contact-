@@ -14,7 +14,7 @@
         <item name="android:background">@color/colorTextBackground</item>
     </style>
 
-    <style name="ImageButton" parent="Base.Widget.AppCompat.Button">
+    <style name="DeleteButton" parent="Base.Widget.AppCompat.Button">
         <item name="android:background">@drawable/delete_buuton</item>
         <item name="android:textColor">@color/white</item>
     </style>

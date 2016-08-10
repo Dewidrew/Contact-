@@ -52,7 +52,7 @@ public class ContactLab {
     }
 
     public Contact getContactById(UUID uuid) {
-        ContactCursorWrapper cursor = queryCrimes(ContactTable.Cols.UUID + " = ?",new String[]{uuid.toString()});
+        ContactCursorWrapper cursor = queryContacts(ContactTable.Cols.UUID + " = ?",new String[]{uuid.toString()});
 
         try{
             if (cursor.getCount() == 0){
@@ -68,7 +68,7 @@ public class ContactLab {
 
     public List<Contact> getContact() {
         List<Contact> contacts = new ArrayList<>();
-        ContactCursorWrapper cursor = queryCrimes(null,null);
+        ContactCursorWrapper cursor = queryContacts(null,null);
         try {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()){
@@ -82,12 +82,12 @@ public class ContactLab {
         return contacts;
     }
 
-    public void deleteCrime(UUID uuid) {
+    public void deleteContact(UUID uuid) {
         database.delete(ContactTable.NAME,ContactTable.Cols.UUID + " = ?",new String[]{uuid.toString()});
 
     }
 
-    public ContactCursorWrapper queryCrimes(String whereCause, String[] whereArgs){
+    public ContactCursorWrapper queryContacts(String whereCause, String[] whereArgs){
         Cursor cursor = database.query(ContactTable.NAME,null,whereCause,whereArgs,null,null,null);
         return new ContactCursorWrapper(cursor);
     }

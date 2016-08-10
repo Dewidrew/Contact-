@@ -38,7 +38,7 @@ public class ContactDeleteDialog extends DialogFragment {
         builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                ContactLab.getInstance(getActivity()).deleteCrime(contact);
+                ContactLab.getInstance(getActivity()).deleteContact(contact);
                 callback.onDelete();
                 dismiss();
             }

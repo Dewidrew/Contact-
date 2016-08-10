@@ -173,6 +173,17 @@ public class ContactListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        if (ContactLab.getInstance(getActivity()).getContact().get(ContactLab.getInstance(getActivity()).getContact().size()-1).getName() == null){
+
+            ContactLab.getInstance(getActivity())
+                    .deleteContact(ContactLab
+                            .getInstance(getActivity())
+                            .getContact()
+                            .get(ContactLab.getInstance(getActivity()).getContact().size()-1)
+                            .getUuid());
+        }
+
         updateUI();
     }
 
@@ -189,11 +200,13 @@ public class ContactListFragment extends Fragment {
             name = (TextView) v.findViewById(R.id.list_item_contact_title);
             v.setOnLongClickListener(this);
             v.setOnClickListener(this);
+
         }
 
         public void bind(Contact contact) {
             this.contact = contact;
             name.setText(contact.getName());
+            photoFile = ContactLab.getInstance(getActivity()).getPhotoFile(contact);
             updatePhotoView();
         }
 
@@ -214,8 +227,11 @@ public class ContactListFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            onCalling(contact);
-        }
+
+            if (contact.getTelephoneNo() != null) {
+                onCalling(contact);
+            }
+    }
     }
 
     public void onCalling(Contact contact) {

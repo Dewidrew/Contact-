@@ -34,7 +34,7 @@ import ayp.aug.contact.model.ContactLab;
 public class ContactFragment extends Fragment {
 
     private static final String CONTACT_ID = "Contact_ID";
-    private static final int REQUEST_CAPTURE_PHOTO = 123123;
+    private static final int REQUEST_CAPTURE_PHOTO = 1123;
 
     private EditText editTextName;
     private EditText editTextTel;
@@ -112,8 +112,8 @@ public class ContactFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*photoFile = //TODO GET PHOTO FILE FROME DATABASE*/
         reloadContactDB();
+        photoFile = ContactLab.getInstance(getActivity()).getPhotoFile(contact);
     }
 
     @Nullable
@@ -232,4 +232,5 @@ public class ContactFragment extends Fragment {
             imageView.setImageBitmap(bitmap);
         }
     }
+
 }

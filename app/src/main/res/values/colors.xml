@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF4900</color>
-    <color name="colorPrimaryDark">#D33C00</color>
-    <color name="colorAccent">#F8004B</color>
+    <color name="colorPrimary">#616161</color>
+    <color name="colorPrimaryDark">#424242</color>
+    <color name="colorAccent">#e91e63</color>
     <!--<color name="colorWindowBackground">#FF9200</color>-->
-    <color name="colorWindowBackground">#D37900</color>
+    <color name="colorWindowBackground">#212121</color>
     <color name="white">#FFFFFF</color>
     <color name="colorTextBackground">#FFB551</color>
 
