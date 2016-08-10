@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Contact++</string>
     <string name="add_contact_icon">Add</string>
+    <string name="text_view_name">Name</string>
+    <string name="hint_edit_text_name">...Edit Name...</string>
+    <string name="text_view_tel">Tel.</string>
+    <string name="hint_edit_text_tel">...Telephone Number...</string>
+    <string name="text_viewemail">E-mail</string>
+    <string name="hint_edit_text_email">...Edit E-mail...</string>
+    <string name="button_delete">Delete</string>
 </resources>
