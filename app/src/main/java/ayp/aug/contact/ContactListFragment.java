@@ -5,15 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.FitWindowsFrameLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,16 +19,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import ayp.aug.contact.model.Contact;
 import ayp.aug.contact.model.ContactLab;
@@ -93,8 +85,16 @@ public class ContactListFragment extends Fragment {
         switch (item.getItemId()) {
             case R.id.menu_item_new_contact:
                 Contact contact = new Contact();
-                ContactLab.getInstance(getActivity()).addContact(contact);
+                if (ContactLab.getInstance(getActivity()).getContact().get(ContactLab.getInstance(getActivity()).getContact().size()-1).getName() == null){
 
+                    ContactLab.getInstance(getActivity())
+                            .deleteContact(ContactLab
+                                    .getInstance(getActivity())
+                                    .getContact()
+                                    .get(ContactLab.getInstance(getActivity()).getContact().size()-1)
+                                    .getUuid());
+                }
+                ContactLab.getInstance(getActivity()).addContact(contact);
                 //support tablet
                 updateUI();
                 callbacks.onContactSelected(contact);
@@ -223,6 +223,16 @@ public class ContactListFragment extends Fragment {
 
         @Override
         public boolean onLongClick(View view) {
+            if (ContactLab.getInstance(getActivity()).getContact().get(ContactLab.getInstance(getActivity()).getContact().size()-1).getName() == null){
+
+                ContactLab.getInstance(getActivity())
+                        .deleteContact(ContactLab
+                                .getInstance(getActivity())
+                                .getContact()
+                                .get(ContactLab.getInstance(getActivity()).getContact().size()-1)
+                                .getUuid());
+                updateUI();
+            }
             callbacks.onContactSelected(contact);
             return true;
         }
